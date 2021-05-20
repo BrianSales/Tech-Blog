@@ -1,0 +1,54 @@
+body {
+    background-color: rgb(244, 247, 248);
+}
+
+.card-container {
+    width: 60%;
+    padding: 10px;
+    height: 70px;
+}
+.day-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(244, 247, 248);
+    width: 60px;
+}   
+
+.day-container > p {
+    margin: 0;
+}
+
+.card-content { 
+    padding: 10px  !important;
+}
+
+.homepage-container {
+    padding: 20px;
+}
+
+
+.recipe-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 20px;
+
+}
+
+.leaf_image {
+    width: 50px;
+    height: 50px;
+}
+
+#map {
+    /* display: none; */
+    height: 400px;
+    width: 600px;
+    margin: 0 auto;
+}
+
+.recipe-card {
+    min-width: 200px;
+    /* width: 300px;
+    height: 300px; */
+}

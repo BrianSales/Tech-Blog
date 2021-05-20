@@ -1,0 +1,32 @@
+{
+  "name": "tech_db",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "build": "postcss public/css/tailwind.css -o public/build/tailwind.css",
+    "start": "node server.js",
+    "seed": "node seeds/seed.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "dotenv": "^9.0.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.2.0",
+    "express-session": "^1.17.1",
+    "mysql2": "^2.2.5",
+    "path": "^0.12.7",
+    "sequelize": "^6.6.2"
+  }
+}
