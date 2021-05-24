@@ -4,11 +4,11 @@ const session = require("express-session");
 const sequelize = require("./config/connection");
 const exphbs = require("express-handlebars");
 const path = require("path");
-require("dotenv").config();
+const dotEnv = require("dotenv").config();
 // import sequelize connection
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 const sess = {
   secret: process.env.SECRET,
