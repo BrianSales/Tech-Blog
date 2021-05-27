@@ -4,12 +4,46 @@ const withAuth = require("../utils/auth");
 
 router.get("/", async (req, res) => {
   try {
-    const posts = await Post.findAll({
+    let posts = await Post.findAll({
       include: [User],
     });
 
+    posts = posts.map((post) =>{
+      let value = post.dataValues
+      value.user = value.user.dataValues
+     
+      return value
+    })
+
+    console.log(posts)
+
     res.render("homepage", { posts });
   } catch (err) {
+    console.log(err)
+    res.status(400).json(err);
+  }
+});
+
+router.get('/post/:id', async (req, res) => {
+  try {
+    let post = await Post.findByPk(req.params.id,{
+      include: [User, Comment] 
+    });
+
+    console.log(post)
+
+    
+      post = post.dataValues
+      post.user = post.user.dataValues
+     
+      
+    
+
+    
+
+    res.render("postInfo", { post });
+  } catch (err) {
+    console.log(err)
     res.status(400).json(err);
   }
 });

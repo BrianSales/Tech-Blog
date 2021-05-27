@@ -13,6 +13,18 @@ router.get("/", async (req, res) => {
     res.status(400).json(err);
   }
 }),
+
+router.get("/:id", async (req, res) => {
+  try {
+    const post = await Post.findByPk(req.params.id,{
+      include: [User],
+    });
+
+    res.status(200).json(Posts);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+})
   router.post("/", async (req, res) => {
     console.log("we hit the route :)");
     try {

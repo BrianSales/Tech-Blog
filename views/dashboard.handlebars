@@ -2,47 +2,47 @@
   <h2 class="homepage-header">Green Genie
    
   </h2>
-  <h3>Recipes</h3>
+  <h3>Post</h3>
 
   <div class="recipe-grid"></div>
 
-<button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" id = "recipebtn">Add your own recipe</button>
+<button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" id = "recipebtn">Post</button>
 
 </div>
 
 <script>
-    function createRecipe(recipe) {
+    function createPost (post) {
         return `
            <div class="card recipe-card">
      
                 <div class="card-content">
-                    <span class="card-title activator grey-text text-darken-4">${recipe.name}
+                    <span class="card-title activator grey-text text-darken-4">${post.name}
                         <img class="leaf_image" src="/images/leaf.svg" />
                     </span>
                     <p>Creator</p>
-                    <p>${recipe.user.username}</p>
-                    <p>Grow Time: ${recipe.grow_time}</p>
+                    <p>${post.user.username}</p>
+                    <p>Grow Time: ${post.grow_time}</p>
                     <p>${recipe.type}</p>
                 </div>
                 <div class="card-reveal">
-                    <span class="card-title grey-text text-darken-4">${recipe.name}</span>
-                    <p>${recipe.description}</p>
+                    <span class="card-title grey-text text-darken-4">${post.name}</span>
+                    <p>${post.description}</p>
                 </div>
             </div>
         `
     }
 
-    const addRecipe = () => {
+    const addPost = () => {
         document.location.replace('/recipe')
     }
 
-    document.querySelector('#recipebtn').addEventListener('click', addRecipe)
+    document.querySelector('#recipebtn').addEventListener('click', addPost)
 
-  fetch('/api/recipes') .then(res => res.json()) .then(recipes => {
-  console.log(recipes);
+  fetch('/api/postRoutes') .then(res => res.json()) .then(posts => {
+  console.log(posts);
   // Loop throguh each recipe and add it to our grid
-        recipes.forEach(recipe => {
-            const html = createRecipe(recipe);
+        posts.forEach(post => {
+            const html = createPost(post);
             document.querySelector('.recipe-grid').innerHTML +=html;
         })
 
