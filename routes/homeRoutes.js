@@ -27,14 +27,23 @@ router.get("/", async (req, res) => {
 router.get('/post/:id', async (req, res) => {
   try {
     let post = await Post.findByPk(req.params.id,{
-      include: [User, Comment] 
+      // include: [User, Comment]
+      include: {all: true, nested: true} 
     });
 
-    console.log(post)
+    
 
     
       post = post.dataValues
       post.user = post.user.dataValues
+      post.user.comments = null
+      post.comments = post.comments.map((comment)=>{
+        let value = comment.dataValues
+        value.user = value.user.dataValues
+        return value
+
+      })
+      console.log(post)
      
       
     

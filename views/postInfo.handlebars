@@ -9,4 +9,7 @@
     - {{post.user.email}}
   </p>
   <hr>
+  {{#each post.comments }}
+    {{> comment body=body user=user}}
+  {{/each}}
 </div>
