@@ -6,59 +6,92 @@ router.get("/", async (req, res) => {
   try {
     let posts = await Post.findAll({
       include: [User],
+      raw: true,
+      nest: true,
     });
-
-    posts = posts.map((post) =>{
-      let value = post.dataValues
-      value.user = value.user.dataValues
-     
-      return value
-    })
-
-    console.log(posts)
-
-    res.render("homepage", { posts });
+    res.render("homepage", { posts, user_id: req.session.user_id });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(400).json(err);
   }
 });
 
-router.get('/post/:id', async (req, res) => {
+router.get("/create", async (req, res) => {
+  if (req.session.logged_in) {
+    res.render("createPost", { user_id: req.session.user_id });
+  } else {
+    res.render("login");
+  }
+});
+
+router.get("/post/:id", async (req, res) => {
   try {
-    let post = await Post.findByPk(req.params.id,{
+    let post = await Post.findByPk(req.params.id, {
       // include: [User, Comment]
-      include: {all: true, nested: true} 
+      include: { all: true, nested: true },
     });
 
-    
+    post = post.dataValues;
+    post.user = post.user.dataValues;
+    post.user.comments = null;
+    post.comments = post.comments.map((comment) => {
+      let value = comment.dataValues;
+      value.user = value.user.dataValues;
+      return value;
+    });
 
-    
-      post = post.dataValues
-      post.user = post.user.dataValues
-      post.user.comments = null
-      post.comments = post.comments.map((comment)=>{
-        let value = comment.dataValues
-        value.user = value.user.dataValues
-        return value
-
-      })
-      console.log(post)
-     
-      
-    
-
-    
-
-    res.render("postInfo", { post });
+    res.render("postInfo", { post, user_id: req.session.user_id });
   } catch (err) {
-    console.log(err)
+    console.log(err);
+    res.status(400).json(err);
+  }
+});
+router.get("/post/details/:id", async (req, res) => {
+  try {
+    let post = await Post.findOne({
+      include: [{ all: true }],
+      raw: true,
+      nest: true,
+      where: {
+        id: req.params.id,
+      },
+    });
+    console.log("FOUND POST", post.comments);
+
+    // post = post.dataValues;
+    // post.user = post.user.dataValues;
+    // post.user.comments = null;
+    // post.comments = post.comments.map((comment) => {
+    //   let value = comment.dataValues;
+    //   value.user = value.user.dataValues;
+    //   return value;
+    // });
+
+    res.render("postInfoWithComments", { post, user_id: req.session.user_id });
+  } catch (err) {
+    console.log(err);
     res.status(400).json(err);
   }
 });
 
 router.get("/dashboard", async (req, res) => {
-  res.render("dashboard");
+  if (req.session.logged_in) {
+    console.log("User ID: ", req.session.user_id);
+    // Grab all the posts for this user
+    let posts = await Post.findAll({
+      include: [User],
+      raw: true,
+      nest: true,
+      where: {
+        user_id: req.session.user_id,
+      },
+    });
+    console.log("Posts", posts);
+
+    res.render("dashboard", { posts, user_id: req.session.user_id });
+  } else {
+    res.render("login");
+  }
 });
 
 router.get("/login", (req, res) => {
@@ -67,7 +100,11 @@ router.get("/login", (req, res) => {
     return;
   }
 
-  res.render("login");
+  res.render("login", { user_id: req.session.user_id });
+});
+router.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.redirect("/login");
 });
 
 router.get("/post/:postId", async (req, res) => {
@@ -82,7 +119,7 @@ router.get("/post/:postId", async (req, res) => {
     res.status(400).json(err);
   }
 
-  res.render("blog", { post });
+  res.render("blog", { post, user_id: req.session.user_id });
 });
 
 module.exports = router;

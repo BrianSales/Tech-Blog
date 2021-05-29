@@ -16,14 +16,13 @@ User.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    userName: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
       validate: {
-        len: [16],
+        len: [4, 16],
       },
-      
     },
     email: {
       type: DataTypes.STRING,

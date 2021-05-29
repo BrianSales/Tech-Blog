@@ -1,11 +1,11 @@
 <div class="create-post-container" style="width: 600px; margin: 0 auto;">
-  <h1>Edit a Post</h1>
-  <form id="post-form" data-id={{post.id}}>
+  <h1>Create a Post</h1>
+  <form id="post-form">
     <label>Title</label>
-    <input type="text" id="title" name="title" value={{post.title}}><br><br>
+    <input type="text" id="title" name="title"><br><br>
     <label>Body</label>
-    <textarea type="text" id="body" name="body" style="height: 300px;">{{post.body}}</textarea><br><br>
-    <button class="btn waves-effect waves-light" type="submit" name="action">Edit
+    <textarea type="text" id="body" name="body" style="height: 300px;"></textarea><br><br>
+    <button class="btn waves-effect waves-light" type="submit" name="action">Create
       
     </button>
   </form>
@@ -17,15 +17,13 @@
 
   const postFormHandler = async (event) => {
   event.preventDefault();
-  const form = document.querySelector('#post-form');
-  const id = form.dataset.id;
 
   const title = document.querySelector("#title").value.trim();
   const body = document.querySelector("#body").value.trim();
 
   if (title && body) {
-    const response = await fetch(`/api/posts/${id}`, {
-      method: "PUT",
+    const response = await fetch("/api/posts", {
+      method: "POST",
       body: JSON.stringify({ title, body }),
       headers: { "Content-Type": "application/json" },
     });

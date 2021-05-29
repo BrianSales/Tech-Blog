@@ -1,0 +1,68 @@
+<div>
+  <h2>
+    {{post.title}}
+  </h2>
+  <p>
+    {{post.body}}
+  </p>
+  <p>
+    - {{post.user.username}}
+  </p>
+  <hr>
+    <form id="post-form" data-id={{post.id}}>
+
+    <label>Add A Comment</label>
+    <textarea type="text" id="body" name="body" style="height: 100px;"></textarea><br><br>
+    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+      
+    </button>
+  </form>
+
+  <div>
+    <h2>Comments</h2>
+    <p>{{post.comments.body}}</p>
+</div>
+
+
+  
+
+
+
+
+
+
+</div>
+
+<script>
+
+  const postFormHandler = async (event) => {
+  event.preventDefault();
+  const form = document.querySelector('#post-form');
+  const id = form.dataset.id;
+
+  const body = document.querySelector("#body").value.trim();
+
+  if (body) {
+    const response = await fetch(`/api/posts/comment/${id}`, {
+      method: "POST",
+      body: JSON.stringify({ body }),
+      headers: { "Content-Type": "application/json" },
+    });
+    const json = await response.json();
+    if (response.ok) {
+      document.location.replace(`/post/details/${id}`);
+    } else {
+      alert(json.message);
+    }
+  }
+};
+
+document
+  .querySelector("#post-form")
+  .addEventListener("submit", postFormHandler);
+
+
+</script>
+
+
+

@@ -1,10 +1,15 @@
-  <nav>
-    <div class="nav-wrapper">
-      <a href="/" class="brand-logo">Tech-Blog</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
+<nav>
+  <div class="nav-wrapper">
+    <a href="/" class="brand-logo">Tech-Blog</a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      {{#if user_id}}
+        <li><a href="/logout">Logout</a></li>
+      {{else}}
         <li><a href="/login">Login</a></li>
+      {{/if}}
+      {{#if user_id}}
         <li><a href="/dashboard">Dashboard</a></li>
-        
-      </ul>
-    </div>
-  </nav>
+      {{/if}}
+    </ul>
+  </div>
+</nav>

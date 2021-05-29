@@ -1,20 +1,20 @@
 const loginFormHandler = async (event) => {
   event.preventDefault();
 
-  const username = document.querySelector('#uname').value.trim();
-  const password = document.querySelector('#pword').value.trim();
+  const username = document.querySelector("#uname").value.trim();
+  const password = document.querySelector("#pword").value.trim();
 
   if (username && password) {
-    const response = await fetch('/api/users/login', {
-      method: 'POST',
+    const response = await fetch("/api/users/login", {
+      method: "POST",
       body: JSON.stringify({ username, password }),
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
-
+    const json = await response.json();
     if (response.ok) {
-      document.location.replace('/');
+      document.location.replace("/");
     } else {
-      alert(response.statusText);
+      alert(json.message);
     }
   }
 };
@@ -22,34 +22,29 @@ const loginFormHandler = async (event) => {
 const signupFormHandler = async (event) => {
   event.preventDefault();
 
-  const username = document.querySelector('#uname-su').value.trim();
-  const email = document.querySelector('#email-su').value.trim();
-  const password = document.querySelector('#pword-su').value.trim();
+  const username = document.querySelector("#uname-su").value.trim();
+  const email = document.querySelector("#email-su").value.trim();
+  const password = document.querySelector("#pword-su").value.trim();
 
   if (username && email && password) {
-    const response = await fetch('/api/users/signUp', {
-      method: 'POST',
+    const response = await fetch("/api/users/signUp", {
+      method: "POST",
       body: JSON.stringify({ username, email, password }),
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
-
+    const json = await response.json();
     if (response.ok) {
-      document.location.replace('/');
+      document.location.replace("/");
     } else {
-      alert(response.statusText);
+      alert(json.message);
     }
   }
 };
 
 document
-  .querySelector('.login-container')
-  .addEventListener('submit', loginFormHandler);
+  .querySelector("#login-form")
+  .addEventListener("submit", loginFormHandler);
 
 document
-  .querySelector('.signup-container')
-  .addEventListener('submit', signupFormHandler); 
-
-  
-
-
-
+  .querySelector("#signup-form")
+  .addEventListener("submit", signupFormHandler);
